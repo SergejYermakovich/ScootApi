@@ -1,5 +1,10 @@
 package com.app.scoot.dto.response;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
+@Data
+@AllArgsConstructor
 public class DistanceItem {
-    Long distance;
+    private double distance;
 }

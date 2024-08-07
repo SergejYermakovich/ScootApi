@@ -1,11 +1,12 @@
 package com.app.scoot.dto.request;
 
 import com.app.scoot.dto.LocationPoint;
+import lombok.Data;
 
-
+@Data
 public class DistanceCalculateRequest {
 
-    LocationPoint from;
+    private LocationPoint from;
 
-    LocationPoint to;
+    private LocationPoint to;
 }
