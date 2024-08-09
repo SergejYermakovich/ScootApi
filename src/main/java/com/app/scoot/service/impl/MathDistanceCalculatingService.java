@@ -1,6 +1,7 @@
 package com.app.scoot.service.impl;
 
 import com.app.scoot.dto.enums.CalculationMethod;
+import com.app.scoot.dto.enums.DistanceUnit;
 import com.app.scoot.dto.request.DistanceCalculateRequest;
 import com.app.scoot.dto.response.DistanceItem;
 import com.app.scoot.service.DistanceService;
@@ -24,7 +25,13 @@ public class MathDistanceCalculatingService implements DistanceService {
                     request.getFrom().getLongitude(),
                     request.getTo().getLatitude(),
                     request.getTo().getLongitude());
-            return new DistanceItem(distance, CalculationMethod.HAVERSINE);
+            return DistanceItem.builder()
+                    .from(request.getFrom())
+                    .to(request.getTo())
+                    .distance(distance)
+                    .unit(DistanceUnit.KILOMETER)
+                    .calculationMethod(CalculationMethod.HAVERSINE)
+                    .build();
         } finally {
             lock.unlock();
         }
