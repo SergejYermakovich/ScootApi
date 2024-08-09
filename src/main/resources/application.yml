@@ -1,0 +1,10 @@
+spring:
+  application:
+   name: scoot
+
+resilience4j.ratelimiter:
+  instances:
+    distanceApi:
+      limitForPeriod: 10
+      limitRefreshPeriod: 1m
+      timeoutDuration: 0
