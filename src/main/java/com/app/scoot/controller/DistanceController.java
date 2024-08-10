@@ -40,7 +40,7 @@ public class DistanceController {
             description = "Successful response with distance between two location points",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     @ApiResponse(responseCode = "403",
-            description = "",
+            description = "Not authorized to call this method",
             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                     schema = @Schema(implementation = ErrorResponse.class)))
     @ApiResponse(responseCode = "429",
