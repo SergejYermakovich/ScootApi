@@ -55,7 +55,7 @@ public class DistanceController {
         if (rateLimiter.acquirePermission()) {
             return distanceService.getDistance(request);
         } else {
-            throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "Too many requests.");
+            throw new ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS, "Too Many Requests");
         }
     }
 }

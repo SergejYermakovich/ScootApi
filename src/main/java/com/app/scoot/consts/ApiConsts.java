@@ -4,7 +4,6 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class ApiConsts {
-
     public static final String API = "/api";
     public static final String PLATFORM_SUB_HEADER = "X-Auth-Sub";
 }

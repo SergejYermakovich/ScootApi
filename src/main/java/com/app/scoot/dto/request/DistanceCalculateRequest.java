@@ -7,8 +7,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class DistanceCalculateRequest {
-
     private LocationPoint from;
-
     private LocationPoint to;
 }

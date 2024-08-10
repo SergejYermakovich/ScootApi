@@ -13,7 +13,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 @Service
 public class MathDistanceCalculatingService implements DistanceService {
-    // здесь сделаем кэширование
+
     private final Lock lock = new ReentrantLock();
 
     @Override
