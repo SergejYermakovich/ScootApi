@@ -19,7 +19,8 @@ import java.util.UUID;
 
 import static com.app.scoot.consts.ApiConsts.PLATFORM_SUB_HEADER;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -42,7 +43,6 @@ public class DistanceControllerIntegrationTest {
     @MockBean
     private RateLimiter rateLimiter;
 
-
     private static final DistanceCalculateRequest REQUEST = new DistanceCalculateRequest(
             new LocationPoint(40.7128, -74.0060),
             new LocationPoint(34.0522, -118.2437)
@@ -50,7 +50,6 @@ public class DistanceControllerIntegrationTest {
 
     @Test
     public void testGetDistance() throws Exception {
-
         mockMvc.perform(post("/api/distance")
                         .header(PLATFORM_SUB_HEADER, UUID.fromString("123e4567-e89b-12d3-a456-426614174001"))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -68,9 +67,7 @@ public class DistanceControllerIntegrationTest {
         when(rateLimiterRegistry.rateLimiter(anyString())).thenReturn(rateLimiter);
         when(rateLimiter.acquirePermission()).thenReturn(true, true, true, true, true, true, true, true, true, true, false);
 
-        // Sending 10 successful requests
         for (int i = 0; i < 10; i++) {
-
             mockMvc.perform(post("/api/distance")
                             .header(PLATFORM_SUB_HEADER, sub)
                             .contentType(MediaType.APPLICATION_JSON)
@@ -80,7 +77,6 @@ public class DistanceControllerIntegrationTest {
                     .andExpect(jsonPath("$.distance").value(distanceItem.getDistance()));
         }
 
-        // Sending the 11th request, which should be blocked
         mockMvc.perform(post("/api/distance")
                         .header(PLATFORM_SUB_HEADER, sub)
                         .contentType(MediaType.APPLICATION_JSON)

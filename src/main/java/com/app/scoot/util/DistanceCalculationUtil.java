@@ -1,5 +1,8 @@
 package com.app.scoot.util;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class DistanceCalculationUtil {
     public static final double EARTH_RADIUS_KM = 6371.01;
 
