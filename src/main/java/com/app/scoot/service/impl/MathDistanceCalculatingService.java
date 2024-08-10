@@ -23,7 +23,7 @@ public class MathDistanceCalculatingService implements DistanceService {
     public MathDistanceCalculatingService() {
         this.distanceCache = Caffeine.newBuilder()
                 .expireAfterWrite(1, TimeUnit.HOURS)
-                .maximumSize(1000)
+                .maximumSize(10000)
                 .build();
     }
 
@@ -35,13 +35,7 @@ public class MathDistanceCalculatingService implements DistanceService {
             Double cachedDistance = distanceCache.getIfPresent(key);
 
             if (cachedDistance != null) {
-                return DistanceItem.builder()
-                        .from(request.getFrom())
-                        .to(request.getTo())
-                        .distance(cachedDistance)
-                        .unit(DistanceUnit.KILOMETER)
-                        .calculationMethod(CalculationMethod.HAVERSINE)
-                        .build();
+                return buildDistanceItem(request, cachedDistance);
             }
 
             double distance = DistanceCalculationUtil.getDistanceByHaversine(
@@ -51,15 +45,19 @@ public class MathDistanceCalculatingService implements DistanceService {
                     request.getTo().getLongitude());
 
             distanceCache.put(key, distance);
-            return DistanceItem.builder()
-                    .from(request.getFrom())
-                    .to(request.getTo())
-                    .distance(distance)
-                    .unit(DistanceUnit.KILOMETER)
-                    .calculationMethod(CalculationMethod.HAVERSINE)
-                    .build();
+            return buildDistanceItem(request, distance);
         } finally {
             lock.unlock();
         }
+    }
+
+    private DistanceItem buildDistanceItem(DistanceCalculateRequest request, double distance) {
+        return DistanceItem.builder()
+                .from(request.getFrom())
+                .to(request.getTo())
+                .distance(distance)
+                .unit(DistanceUnit.KILOMETER)
+                .calculationMethod(CalculationMethod.HAVERSINE)
+                .build();
     }
 }
